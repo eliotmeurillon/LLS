@@ -4,8 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NativeBaseProvider } from "native-base";
+import { Foundation } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
+import TestScreen from "./screens/TestScreen";
+import ArticleScreen from "./screens/ArticleScreen";
 
 function ProfileScreen({ navigation }) {
   return (
@@ -51,8 +56,7 @@ function MyStack() {
         component={MyTabs}
         options={{ headerShown: false }}
       />
-
-      <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Article" component={ArticleScreen} />
     </Stack.Navigator>
   );
 }
@@ -61,18 +65,72 @@ function MyTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarShowLabel: false,
         tabBarActiveTintColor: "#350C55",
         tabBarInactiveTintColor: "white",
         tabBarStyle: {
           backgroundColor: "#E7DEF3",
-          borderTopLeftRadius: 50,
-          borderTopRightRadius: 50,
+          borderTopLeftRadius: 40,
+          borderTopRightRadius: 40,
+          height: 70,
+        },
+        headerStyle: { backgroundColor: "#E7DEF3" },
+        tabBarLabelStyle: {
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
         },
       }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Notifications" component={NotificationsScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Foundation name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="text-search"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="test"
+        component={TestScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bell" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bell" color={color} size={size} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }

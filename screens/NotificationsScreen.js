@@ -11,19 +11,25 @@ import {
   RefreshControl,
 } from "react-native";
 
-const HomeScreen = () => {
+const NotificationsScreen = () => {
   const [refreshing, setRefreshing] = useState(true);
-  const [userData, setUserData] = useState([]);
+  const [titles, setTitles] = useState([]);
+
   useEffect(() => {
-    loadUserData();
+    loadTitles();
   }, []);
 
-  const loadUserData = () => {
-    fetch("https://randomuser.me/api/?results=8")
-      .then((response) => response.json())
-      .then((responseJson) => {
+  const loadTitles = () => {
+    fetch("http://82.66.75.161/")
+      .then((response) => response.text())
+      .then((responseText) => {
+        const titleRegex = /<title>(.*?)<\/title>/gi;
+        const matches = responseText.match(titleRegex);
+        const titleList = matches.map((match) =>
+          match.replace(/<\/?title>/g, "")
+        );
         setRefreshing(false);
-        setUserData(responseJson.results);
+        setTitles(titleList);
       })
       .catch((error) => {
         console.error(error);
@@ -38,7 +44,7 @@ const HomeScreen = () => {
           padding: 10,
         }}
       >
-        {item.name.first} {item.name.last}
+        {item}
       </Text>
     );
   };
@@ -54,21 +60,22 @@ const HomeScreen = () => {
       />
     );
   };
+
   return (
     <SafeAreaView style={{ flex: 1, marginTop: 20 }}>
       {refreshing ? <ActivityIndicator /> : null}
       <FlatList
-        data={userData}
+        data={titles}
         keyExtractor={(item, index) => index.toString()}
         ItemSeparatorComponent={ItemSeparatorView}
         enableEmptySections={true}
         renderItem={ItemView}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={loadUserData} />
+          <RefreshControl refreshing={refreshing} onRefresh={loadTitles} />
         }
       />
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default NotificationsScreen;

@@ -11,3 +11,9 @@ web-build/
 .vscode
 .DS_Store
 
+#backend
+backend/Lib
+backend/Scripts
+backend/Include
+backend/share
+
