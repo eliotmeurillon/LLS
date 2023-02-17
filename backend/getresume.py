@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import openai
 
 # Set up the OpenAI API client
-openai.api_key = "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"
+openai.api_key = "**************"
 
 
 def summarize_text(text):
